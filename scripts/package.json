@@ -1,0 +1,26 @@
+{
+  "name": "scripts",
+  "version": "1.0.0",
+  "description": "A team profile generator using inline terminal commmands to generate HTML",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rgregg2014/TeamProfileGenerator.git"
+  },
+  "author": "Rachel Gregg",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rgregg2014/TeamProfileGenerator/issues"
+  },
+  "homepage": "https://github.com/rgregg2014/TeamProfileGenerator#readme",
+  "dependencies": {
+    "inquirer": "^8.1.2",
+    "jest": "^27.0.6"
+  }
+}
