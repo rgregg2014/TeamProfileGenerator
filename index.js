@@ -58,7 +58,7 @@ function addStaffCard(member) {
     const id = member.getID();
     const email = member.getEmail();
     let data = "";
-
+    console.log(role);
     // Checks for specific role and populates staffCard <div>s accordingly
     if (role === "Manager") {
       const officeNumber = member.getOfficeNumber();
@@ -87,6 +87,7 @@ function addStaffCard(member) {
       </div>
     </div>`;
     } else {
+      // TODO: This is overriding everything before it and I cannot figure out why
       const school = member.getSchool();
       data = `<div class="card bg-light mb-3" style="max-width: 18rem">
         <div class="card-header">Intern</div>
@@ -169,18 +170,23 @@ function genStaffCard() {
       } else if (staffRole === "Engineer") {
         roleInfo = "GitHub username";
       } else {
-        roleInfo = "univerity affiliation";
+        roleInfo = "university affiliation";
       }
       // Ask job specific question
       // Ask if user wants to add additional members
-      //TODO: The data for Intern is overriding everything and I can't figure out how to make it stop.
+      //TODO: The data for Intern is overriding everything and I can't figure out how to make it stop. The prompts will ask the appropriate questions, but populates an Intern block with those answers in the templates
+
+      //TODO: Run the prompts through these functions instead of one function, ask the which type of employee question first, then use an if-else statement to run the following function that asks the other questions then generate and append the HTML boxes
+      //function addManager()
+      //function addEngineer()
+      //function addIntern()
 
       inquirer
         .prompt([
           {
             type: "input",
             message: `Please enter your team member's ${roleInfo}:`,
-            name: "roleInfo",
+            name: "employeeRole",
           },
           {
             type: "list",
@@ -190,26 +196,41 @@ function genStaffCard() {
           },
         ])
         // Decide which role class to grab and populate
-        .then(function ({ roleInfo, additionalStaff }) {
-          let newStaff = [];
+        .then(function ({ employeeRole, additionalStaff }) {
+          console.log(roleInfo);
+          console.log(employeeRole);
+          let newStaff;
           if (roleInfo === "office number") {
-            newStaff = new Manager(staffName, staffID, staffEmail, roleInfo);
-          } else if (roleInfo === "Github username") {
-            newStaff = new Engineer(staffName, staffID, staffEmail, roleInfo);
+            newStaff = new Manager(
+              staffName,
+              staffID,
+              staffEmail,
+              employeeRole
+            );
+          } else if (roleInfo === "GitHub username") {
+            newStaff = new Engineer(
+              staffName,
+              staffID,
+              staffEmail,
+              employeeRole
+            );
           } else {
-            newStaff = new Intern(staffName, staffID, staffEmail, roleInfo);
+            newStaff = new Intern(staffName, staffID, staffEmail, employeeRole);
           }
           // Add newly created staff to array of staff members
+          // Append staff card to header in HTML
           // More staff? Recall the function
           // No more staff? Move on
           employees.push(newStaff);
-          addStaffCard(newStaff).then(function () {
-            if (additionalStaff === "Yes") {
-              genStaffCard();
-            } else {
-              addHTMLFoot();
-            }
-          });
+          addStaffCard(newStaff)
+            //
+            .then(function () {
+              if (additionalStaff === "Yes") {
+                genStaffCard();
+              } else {
+                addHTMLFoot();
+              }
+            });
         });
     });
 }
