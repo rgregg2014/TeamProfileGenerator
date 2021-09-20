@@ -41,7 +41,7 @@ function genHeadHTML() {
       </div>`;
 
   // Writes new file into dist folder, catches any errors and prints to console
-  fs.writeFile("./dist/autoTeamProfile.html", htmlHead, function (err) {
+  fs.writeFile("./output/autoTeamProfile.html", htmlHead, function (err) {
     if (err) {
       console.log(err);
     }
